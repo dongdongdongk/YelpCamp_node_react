@@ -25,9 +25,27 @@ const CampGround = () => {
             <h1>CampGround</h1>
             <ul>
                 {camp.map((camp) => (
-                    <li key={camp.id}>
-                    <Link to={`/campground/${camp._id}`}>{camp.title}</Link>    
-                    </li>
+                    <div className="card" mb-3>
+                        <div className="row">
+                            <div className="col-mb-4">
+                                <img className="img-fluid" alt="" src= {camp.image}/>
+                            </div>
+                            <div className="col-md-8">
+                                <div className="card-body">
+                                    <h5 className="card-title">{camp.title}</h5>
+                                    <p className="card-text">{camp.description}</p>
+                                    <p className="card-text">
+                                        <small className="text-muted">{camp.location}</small>
+                                    </p>
+                                    <Link to={`/campground/${camp._id}`}><button className="btn btn-primary">View</button></Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    // <li key={camp.id}>
+                    // <Link to={`/campground/${camp._id}`}>{camp.title}</Link>    
+                    // </li>
                 ))}
             </ul>   
         </>

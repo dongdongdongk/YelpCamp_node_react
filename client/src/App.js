@@ -9,13 +9,17 @@ import CampGroundUpdate from './pages/campgroundUpdate';
 
 function App() {
   return (
-    <Routes>
-      <Route path='/' element={<Home />}/>
-      <Route path='campground' element={<CampGround />}/>
-      <Route path='campground/:id' element={<CampGroundDetail />}/>
-      <Route path='campground/new' element={<CampGroundAdd/>}/>
-      <Route path='campground/:id/edit' element={<CampGroundUpdate/>}/>
-    </Routes>
+    <div className='d-flex flex-column min-vh-100'>
+      <div className="container mt-3 flex-grow-1">
+        <Routes>
+          <Route path='/' element={<Home />}/>
+          <Route path='campground' element={<CampGround />}/>
+          <Route path='campground/:id' element={<CampGroundDetail />}/>
+          <Route path='campground/new' element={<CampGroundAdd/>}/>
+          <Route path='campground/:id/edit' element={<CampGroundUpdate/>}/>
+        </Routes>
+      </div>
+    </div>
   );
 }
 

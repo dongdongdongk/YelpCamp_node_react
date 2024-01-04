@@ -36,6 +36,8 @@ const CampGroundDetail = () => {
                 <div>
                     <h1>{camp.title}</h1>
                     <h2>{camp.location}</h2>
+                    <img src= {camp.image} alt="" />
+                    <p>{camp.description}</p>
                 </div>
             ) : (
                 <p>캠프를 불러오는 중입니다...</p>

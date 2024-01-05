@@ -25,7 +25,7 @@ const CampGround = () => {
             <h1>CampGround</h1>
             <ul>
                 {camp.map((camp) => (
-                    <div className="card" mb-3>
+                    <div className="card" key={camp._id}>
                         <div className="row">
                             <div className="col-mb-4">
                                 <img className="img-fluid" alt="" src= {camp.image}/>

@@ -21,7 +21,7 @@ export default function App() {
     <>
       <MDBNavbar expand='lg' dark bgColor='dark'>
         <MDBContainer fluid>
-          <MDBNavbarBrand href='#'>Navbar</MDBNavbarBrand>
+          <MDBNavbarBrand>Navbar</MDBNavbarBrand>
           <MDBNavbarToggler
             type='button'
             data-target='#navbarColor02'
@@ -35,7 +35,7 @@ export default function App() {
           <MDBCollapse open={openNavColorSecond} navbar id='navbarColor02'>
             <MDBNavbarNav className='me-auto mb-2 mb-lg-0'>
               <MDBNavbarItem className='active'>
-                <MDBNavbarLink aria-current='page' href='#'>
+                <MDBNavbarLink aria-current='page'>
                   Home
                 </MDBNavbarLink>
               </MDBNavbarItem>
@@ -46,7 +46,7 @@ export default function App() {
                 <Link to={"/campground/new"}><MDBNavbarLink>New Campground</MDBNavbarLink></Link>
               </MDBNavbarItem>
               <MDBNavbarItem>
-                <MDBNavbarLink href='#'>About</MDBNavbarLink>
+                <MDBNavbarLink>About</MDBNavbarLink>
               </MDBNavbarItem>
             </MDBNavbarNav>
           </MDBCollapse>

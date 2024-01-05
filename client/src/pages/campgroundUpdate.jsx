@@ -50,27 +50,78 @@ const CampGroundUpdate = () => {
 
     return (
         <>
-            <h1>CampGroundUpdate</h1>
-            <form>
-                <label htmlFor="title">title</label>
-                <input
-                    type="text"
-                    name="title"
-                    id="title"
-                    value={formData.title}
-                    onChange={handleChange}
-                />
-                <label htmlFor="location">location</label>
-                <input
-                    type="text"
-                    name="location"
-                    id="location"
-                    value={formData.location}
-                    onChange={handleChange}
-                />
-                <button type="submit" onClick={onSubmitHandler}>Update</button>
-            </form>
-            <Link to={'/campground'}>홈으로</Link>
+            <div className="row">
+                    <h1 className="text-center">CampGroundUpdate</h1>
+                    <div className="col-6 offset-3">
+                        <form onSubmit={onSubmitHandler}>
+                            <div className="mb-3">
+                            <label className="form-label" htmlFor="title">Title</label>
+                                <input
+                                    className="form-control"
+                                    type="text"
+                                    name="title"
+                                    id="title"
+                                    value={formData.title}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label" htmlFor="location">Location</label>
+                                <input
+                                    className="form-control"
+                                    type="text"
+                                    name="location"
+                                    id="location"
+                                    value={formData.location}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label" htmlFor="image">Image</label>
+                                <input
+                                    className="form-control"
+                                    type="text"
+                                    name="image"
+                                    id="image"
+                                    value={formData.image}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label" htmlFor="price">Campground Price</label>
+                                <div className="input-group">
+                                    <span className="input-group-text" id="price-label">$</span>
+                                    <input 
+                                        type="text"
+                                        className="form-control"
+                                        id="price"
+                                        name="price"
+                                        placeholder="0.00"
+                                        aria-label="price"
+                                        aria-describedby="price-label"
+                                        value={formData.price}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label" htmlFor="description">Description</label>
+                                <textarea
+                                    className="form-control"
+                                    type="text"
+                                    name="description"
+                                    id="description"
+                                    value={formData.description}
+                                    onChange={handleChange}>
+                                </textarea>
+                            </div>
+                            <div className="mb-3">
+                                <button className="btn btn-info" type="submit" value="submit">UpdateCampGround</button>
+                            </div>
+                        </form>
+                        <Link to={"/campground"}>Back To Campground</Link>
+                    </div>
+                </div>
         </>
     )
 }

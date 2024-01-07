@@ -5,9 +5,12 @@ import CampGround from './pages/campground';
 import CampGroundDetail from './pages/campgroundDetail';
 import CampGroundAdd from './pages/campgroundAdd';
 import CampGroundUpdate from './pages/campgroundUpdate';
+import AdditionalContent from './pages/AdditionalContent';
 
 
 function App() {
+
+  
   return (
     <div className='d-flex flex-column min-vh-100'>
       <div className="container mt-3 flex-grow-1">
@@ -17,6 +20,7 @@ function App() {
           <Route path='campground/:id' element={<CampGroundDetail />}/>
           <Route path='campground/new' element={<CampGroundAdd/>}/>
           <Route path='campground/:id/edit' element={<CampGroundUpdate/>}/>
+          <Route path='*' element={<AdditionalContent />}/>
         </Routes>
       </div>
     </div>

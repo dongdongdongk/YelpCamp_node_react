@@ -116,12 +116,13 @@ const CampGroundAdd = () => {
                         <InputGroup hasValidation>
                             <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
                             <Form.Control
-                                type="text"
+                                type="number"
                                 placeholder="price"
                                 aria-describedby="inputGroupPrepend"
                                 value={formData.price}
                                 onChange={handleChange}
                                 name="price"
+                                pattern="[0-9]+"
                                 required
                             />
                             <Form.Control.Feedback type="invalid">
@@ -145,9 +146,9 @@ const CampGroundAdd = () => {
                                     required
                                 />
                             </FloatingLabel>
-                            <Form.Control.Feedback type="invalid" style={{ display: validated ? 'block' : 'none' }}>
+                            {/* <Form.Control.Feedback type="invalid" style={{ display: validated ? 'block' : 'none' }}>
                                 Please provide a valid description.
-                            </Form.Control.Feedback>
+                            </Form.Control.Feedback> */}
                         </InputGroup>
                     </Form.Group>
                 </Row>

@@ -8,3 +8,7 @@ module.exports.campgroundSchema = Joi.object({
     image : Joi.string().required()
 })
 
+module.exports.reviewSchema = Joi.object({
+    rating : Joi.number().required().min(0).max(5),
+    body : Joi.string().required()
+})

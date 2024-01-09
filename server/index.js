@@ -1,10 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose'); // ¸ù±¸½º ¿¬°á
 const CampGround = require('./models/campground')
+const Review = require("./models/review")
 const cors = require('cors')
 const catchAsync = require("./util/catchAsync");
 const ExpressError = require('./util/ExpressError');
-const { campgroundSchema } = require("./validate")
+const { campgroundSchema , reviewSchema } = require("./validate")
 
 const app = express();
 app.use(cors())
@@ -33,7 +34,7 @@ app.get('/campground', catchAsync(async (req, res) => {
 app.get('/campground/:id', catchAsync(async (req, res) => {
     const { id } = req.params
 
-    const campground = await CampGround.findById(id);
+    const campground = await CampGround.findById(id).populate('reviews');
     if (!campground) throw new ExpressError("Invalid Campground Data", 400)
     res.send(campground);
 
@@ -49,6 +50,15 @@ const validateCampground = (req, res, next) => {
     }
 }
 
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body, { abortEarly : false });
+    if (error) {
+        const errorMessage = error.details.map((detail) => detail.message).join(',');
+        throw new ExpressError(errorMessage, 400)
+    } else {
+        next();
+    }
+}
 
 
 // Ãß°¡ 
@@ -75,7 +85,31 @@ app.put('/campground/:id',validateCampground, catchAsync(async (req, res) => {
 
 }))
 
-// »èÁ¦ 
+// ¸®ºä Ãß°¡ 
+app.post('/campground/:id/review',validateReview, catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const campground = await CampGround.findById(id);
+    const { body, rating} = req.body;
+    const review = new Review({body, rating});
+    campground.reviews.push(review._id);
+    await review.save();
+    await campground.save();
+    console.log(campground)
+    console.log("reviewSuccess")
+    res.send(campground);  
+}))
+
+// ¸®ºä »èÁ¦ 
+app.delete('/campground/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+    const { id,reviewId } = req.params;
+    await CampGround.findByIdAndUpdate(id, { $pull : {reviews : reviewId}})
+    await Review.findByIdAndDelete(reviewId);
+    res.send("Delete Test")
+}))
+
+
+
+//Ä·ÇÁ »èÁ¦ 
 app.delete('/campground/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     try {

@@ -1,11 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose'); // 몽구스 연결
-const CampGround = require('./models/campground')
-const Review = require("./models/review")
 const cors = require('cors')
-const catchAsync = require("./util/catchAsync");
 const ExpressError = require('./util/ExpressError');
-const { campgroundSchema , reviewSchema } = require("./validate")
+// campground 라우트 
+const campgrounds = require('./routes/campgrounds')
+const reviews = require('./routes/review')
+const session = require('express-session')
 
 const app = express();
 app.use(cors())
@@ -23,107 +23,21 @@ db.once("open", () => { // 한 번만 실행되는 이벤트 리스너 등록 MongoDB에 성공적�
     console.log("Database connected");
 });
 
-
-// 조회
-app.get('/campground', catchAsync(async (req, res) => {
-    const campground = await CampGround.find({});
-    res.send(campground);
-}));
-
-// 상세 조회
-app.get('/campground/:id', catchAsync(async (req, res) => {
-    const { id } = req.params
-
-    const campground = await CampGround.findById(id).populate('reviews');
-    if (!campground) throw new ExpressError("Invalid Campground Data", 400)
-    res.send(campground);
-
-}))
-
-const validateCampground = (req, res, next) => {
-    const { error } = campgroundSchema.validate(req.body, { abortEarly: false });
-    if (error) {
-        const errorMessage = error.details.map((detail) => detail.message).join(', ');
-        throw new ExpressError(errorMessage, 400)
-    } else {
-        next();
-    }
-}
-
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body, { abortEarly : false });
-    if (error) {
-        const errorMessage = error.details.map((detail) => detail.message).join(',');
-        throw new ExpressError(errorMessage, 400)
-    } else {
-        next();
+const sessionConfig = {
+    secret : 'apple',
+    resave : false,
+    saveUninitialized : true,
+    cookie : { // 쿠키 만료기간 설정 ( 1주일 뒤 )
+        httpOnly: true, // 클라이언트 측 JavaScript를 통해 쿠키에 접근하는 것을 막음
+        expires : Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge : 1000 * 60 * 60 * 24 * 7 
     }
 }
 
 
-// 추가 
-app.post('/campground/new',validateCampground, catchAsync(async (req, res) => {
-    // if (!req.body.newCamp) throw new ExpressError('Invalid Campground Data', 400);
-    const newCamp = new CampGround(req.body);
-    await newCamp.save();
-    res.send("SaveSuccess")
-}));
-
-// 업데이트 
-app.put('/campground/:id',validateCampground, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const camp = await CampGround.findById(id);
-
-    if (!camp) throw new ExpressError("CampFindFail", 404)
-    if (!req.body.camp) throw new ExpressError('Invalid Campground Data(Update)', 400);
-
-
-    camp.set(req.body);
-    await camp.save();
-
-    res.send(camp);
-
-}))
-
-// 리뷰 추가 
-app.post('/campground/:id/review',validateReview, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const campground = await CampGround.findById(id);
-    const { body, rating} = req.body;
-    const review = new Review({body, rating});
-    campground.reviews.push(review._id);
-    await review.save();
-    await campground.save();
-    console.log(campground)
-    console.log("reviewSuccess")
-    res.send(campground);  
-}))
-
-// 리뷰 삭제 
-app.delete('/campground/:id/reviews/:reviewId', catchAsync(async (req, res) => {
-    const { id,reviewId } = req.params;
-    await CampGround.findByIdAndUpdate(id, { $pull : {reviews : reviewId}})
-    await Review.findByIdAndDelete(reviewId);
-    res.send("Delete Test")
-}))
-
-
-
-//캠프 삭제 
-app.delete('/campground/:id', catchAsync(async (req, res) => {
-    const { id } = req.params;
-    try {
-        const result = await CampGround.deleteOne({ _id: id });
-        if (result.deletedCount > 0) {
-            res.status(200).send("DELETE SUCCESS")
-        } else {
-            res.status(404).send("ID NOT FOUND");
-        }
-    } catch (error) {
-        console.log('DELETE FAIL')
-        res.send(500).send("DELETE FAIL")
-    }
-}))
+app.use(session(sessionConfig))
+app.use('/campground', campgrounds)
+app.use('/campground/:id/reviews', reviews )
 
 app.use((err, req, res, next) => {
     console.log(err.name)

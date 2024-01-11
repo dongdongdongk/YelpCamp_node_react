@@ -29,15 +29,6 @@ const CampGroundAdd = () => {
         }));
     }
 
-    // const handleSubmit = (event) => {
-    //     const form = event.currentTarget;
-    //     if (form.checkValidity() === false) {
-    //       event.preventDefault();
-    //       event.stopPropagation();
-    //     }
-
-    //     setValidated(true);
-    //   };
 
     // 폼 제출 핸들러 
     const onSubmitHandler = async (e) => {
@@ -55,7 +46,7 @@ const CampGroundAdd = () => {
         // 폼 데이터 전송
         try {
             await axios.post('http://localhost:4000/campground/new', formData);
-            navigate('/campground');
+            navigate('/campground', { state: { registrationComplete: true } });
         } catch (error) {
             console.error("SAVE FAIL", error);
         }
@@ -154,84 +145,6 @@ const CampGroundAdd = () => {
                 </Row>
                 <Button type="submit">Submit form</Button>
             </Form>
-            {/* <div className="row">
-                <h1 className="text-center">CampGroundAdd</h1>
-                <div className="col-6 offset-3">
-                    <form onSubmit={onSubmitHandler}>
-                        <div className="mb-3">
-                            <label className="form-label" htmlFor="title">Title</label>
-                            <input
-                                required
-                                className="form-control"
-                                type="text"
-                                name="title"
-                                id="title"
-                                value={formData.title}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="mb-3">
-                            <label className="form-label" htmlFor="location">Location</label>
-                            <input
-                                required
-                                className="form-control"
-                                type="text"
-                                name="location"
-                                id="location"
-                                value={formData.location}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="mb-3">
-                            <label className="form-label" htmlFor="image">Image</label>
-                            <input
-                                required
-                                className="form-control"
-                                type="text"
-                                name="image"
-                                id="image"
-                                value={formData.image}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className="mb-3">
-                            <label className="form-label" htmlFor="price">Campground Price</label>
-                            <div className="input-group">
-                                <span className="input-group-text" id="price-label">$</span>
-                                <input
-                                    required
-                                    type="text"
-                                    className="form-control"
-                                    id="price"
-                                    name="price"
-                                    placeholder="0.00"
-                                    aria-label="price"
-                                    aria-describedby="price-label"
-                                    value={formData.price}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                        </div>
-                        <div className="mb-3">
-                            <label className="form-label" htmlFor="description">Description</label>
-                            <textarea
-                                required
-                                className="form-control"
-                                type="text"
-                                name="description"
-                                id="description"
-                                value={formData.description}
-                                onChange={handleChange}>
-                            </textarea>
-                        </div>
-                        <div className="mb-3">
-                            <button className="btn btn-success" type="submit" value="submit">AddCampGround</button>
-                        </div>
-                    </form>
-                    <Link to={"/campground"}>All Campground</Link>
-                </div>
-            </div> */}
-
         </>
     )
 

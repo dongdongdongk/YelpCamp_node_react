@@ -61,7 +61,7 @@ const CampGroundDetail = () => {
 
         // 폼 데이터 전송
         try {
-            await axios.post(`http://localhost:4000/campground/${params.id}/review`, formData);
+            await axios.post(`http://localhost:4000/campground/${params.id}/reviews`, formData);
             // 새로운 리뷰를 추가한 후에 다시 데이터를 불러와서 업데이트
             const response = await axios.get(`http://localhost:4000/campground/${params.id}`);
             // 인풋창 초기화 

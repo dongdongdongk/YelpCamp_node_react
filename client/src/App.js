@@ -6,6 +6,8 @@ import CampGroundDetail from './pages/campgroundDetail';
 import CampGroundAdd from './pages/campgroundAdd';
 import CampGroundUpdate from './pages/campgroundUpdate';
 import AdditionalContent from './pages/AdditionalContent';
+import Register from './pages/register';
+import Login from './pages/login';
 
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
       <div className="container mt-3 flex-grow-1">
         <Routes>
           <Route path='/' element={<Home />}/>
+          <Route path='register' element={<Register/>}/>
+          <Route path='login' element={<Login/>}/>
           <Route path='campground' element={<CampGround />}/>
           <Route path='campground/:id' element={<CampGroundDetail />}/>
           <Route path='campground/new' element={<CampGroundAdd/>}/>

@@ -1,5 +1,7 @@
+// Header.jsx
+
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   MDBNavbar,
   MDBContainer,
@@ -12,10 +14,14 @@ import {
   MDBCollapse
 } from 'mdb-react-ui-kit';
 
-export default function App() {
-  const [openNavColor, setOpenNavColor] = useState(false);
+export default function Header({ isLogin, logout }) {
   const [openNavColorSecond, setOpenNavColorSecond] = useState(false);
-  const [openNavColorThird, setOpenNavColorThird] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <>
@@ -40,14 +46,21 @@ export default function App() {
                 </MDBNavbarLink>
               </MDBNavbarItem>
               <MDBNavbarItem>
-                <Link to={"/campground"}><MDBNavbarLink>Campground</MDBNavbarLink></Link>
+                <Link to='/campground'><MDBNavbarLink>Campground</MDBNavbarLink></Link>
               </MDBNavbarItem>
-              <MDBNavbarItem>
-                <Link to={"/campground/new"}><MDBNavbarLink>New Campground</MDBNavbarLink></Link>
-              </MDBNavbarItem>
-              <MDBNavbarItem>
-                <MDBNavbarLink>About</MDBNavbarLink>
-              </MDBNavbarItem>
+              {isLogin ? (
+                <>
+                  <MDBNavbarItem>
+                    <MDBNavbarLink onClick={handleLogout}>Logout</MDBNavbarLink>
+                  </MDBNavbarItem>
+                </>
+              ) : (
+                <>
+                  <MDBNavbarItem>
+                    <Link to='/login'><MDBNavbarLink>Login</MDBNavbarLink></Link>
+                  </MDBNavbarItem>
+                </>
+              )}
             </MDBNavbarNav>
           </MDBCollapse>
         </MDBContainer>

@@ -9,7 +9,9 @@ const userRoutes = require('./routes/users')
 const session = require('express-session')
 const passport = require('passport'); // Passport 모듈
 const LocalStrategy = require('passport-local') // Passport의 LocalStrategy 모듈
+const cookieParser = require('cookie-parser');
 const User = require('./models/user')
+const dotenv = require('dotenv');
 
 const app = express();
 app.use(cors({
@@ -36,28 +38,23 @@ db.once("open", () => { // 한 번만 실행되는 이벤트 리스너 등록 MongoDB에 성공적�
     console.log("Database connected");
 });
 
-const sessionConfig = {
-    secret : 'apple',
-    resave : false,
-    saveUninitialized : true,
-    cookie : { // 쿠키 만료기간 설정 ( 1주일 뒤 )
-        httpOnly: true, // 클라이언트 측 JavaScript를 통해 쿠키에 접근하는 것을 막음
-        expires : Date.now() + 1000 * 60 * 60 * 24 * 7,
-        maxAge : 1000 * 60 * 60 * 24 * 7 
-    }
-}
+// const sessionConfig = {
+//     secret : 'apple',
+//     resave : false,
+//     saveUninitialized : true,
+//     cookie : { // 쿠키 만료기간 설정 ( 1주일 뒤 )
+//         httpOnly: true, // 클라이언트 측 JavaScript를 통해 쿠키에 접근하는 것을 막음
+//         expires : Date.now() + 1000 * 60 * 60 * 24 * 7,
+//         maxAge : 1000 * 60 * 60 * 24 * 7 
+//     }
+// }
 
 
-app.use(session(sessionConfig)) // app.use(passport.session()); 전에 있어야 한다
+dotenv.config();
+app.use(cookieParser());
 app.use(passport.initialize());
-app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate())) // Passport에게 로컬 인증 전략을 사용하도록 지시하는 부분
-passport.serializeUser(User.serializeUser()); // 사용자 정보를 세션에 저장할 때 어떤 필드를 사용할지를 정의하는 메소드
-passport.deserializeUser(User.deserializeUser()); // 세션에 저장된 사용자 정보를 어떻게 복원할지를 정의하는 메소드
 
-app.get('fakeUser', async(req, res) => {
-
-})
 
 app.use('/campground', campgroundRoutes)
 app.use('/campground/:id/reviews', reviewRoutes )

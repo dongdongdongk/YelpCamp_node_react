@@ -44,7 +44,7 @@ const Login = () => {
         // 폼 데이터 전송
         try {
             await axios.post('http://localhost:4000/login', formData, {withCredentials: true});
-            navigate('/campground')
+            window.open("/campground", "_self");
         } catch (error) {
             console.error("SAVE FAIL", error);
         }

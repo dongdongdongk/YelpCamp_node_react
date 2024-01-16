@@ -19,7 +19,7 @@ app.use(cors({
     origin: 'http://localhost:3000',
     
     // 허용할 HTTP 메서드를 배열로 지정합니다.
-    methods: ['GET', 'POST', 'OPTIONS'],
+    methods: ['GET', 'POST','DELETE','OPTIONS'],
     
     // 쿠키를 포함한 요청을 허용하기 위해 credentials 옵션을 true로 설정합니다.
     credentials: true,

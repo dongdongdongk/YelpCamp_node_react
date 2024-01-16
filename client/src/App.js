@@ -10,6 +10,7 @@ import Register from './pages/register';
 import Login from './pages/login';
 import axios from "axios";
 import { useEffect, useState } from "react";
+import PrivateRoute from './components/PrivateRoute';
 import Header from './layout/header';
 import Footer from './layout/footer';
 
@@ -21,7 +22,7 @@ function App() {
 
   const logout = () => {
     axios({
-      url: "http://localhost:8123/logout",
+      url: "http://localhost:4000/logout",
       method: "POST",
       withCredentials: true,
     }).then((result) => {
@@ -52,20 +53,20 @@ function App() {
     }
   }, [setUser]);
 
-  
+
   return (
     <div className='d-flex flex-column min-vh-100'>
       <Header isLogin={isLogin} logout={logout} />
       <div className="container mt-3 flex-grow-1">
         <Routes>
-          <Route path='/' element={<Home />}/>
-          <Route path='register' element={<Register/>}/>
-          <Route path='login' element={<Login/>}/>
-          <Route path='campground' element={<CampGround />}/>
-          <Route path='campground/:id' element={<CampGroundDetail />}/>
-          <Route path='campground/new' element={<CampGroundAdd/>}/>
-          <Route path='campground/:id/edit' element={<CampGroundUpdate/>}/>
-          <Route path='*' element={<AdditionalContent />}/>
+          <Route path='/' element={<Home />} />
+          <Route path='register' element={<Register />} />
+          <Route path='login' element={<Login />} />
+          <Route path='campground' element={<CampGround />} />
+          <Route path='campground/:id' element={<CampGroundDetail />} />
+          <Route path='*' element={<AdditionalContent />} />
+          <Route path='campground/new' element={<CampGroundAdd />} />
+          <Route path='campground/:id/edit' element={<CampGroundUpdate />} />
         </Routes>
       </div>
       <Footer />

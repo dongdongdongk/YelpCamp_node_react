@@ -13,6 +13,7 @@ import {
   MDBNavbarBrand,
   MDBCollapse
 } from 'mdb-react-ui-kit';
+import axios from 'axios';
 
 export default function Header({ isLogin, logout }) {
   const [openNavColorSecond, setOpenNavColorSecond] = useState(false);
@@ -20,8 +21,16 @@ export default function Header({ isLogin, logout }) {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
   };
+
+  // const logout = () => {
+  //   try {
+  //     axios.post('http://localhost:4000/logout',{},{withCredentials: true})
+  //     window.open("/campground", "_self");
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   return (
     <>
@@ -41,15 +50,16 @@ export default function Header({ isLogin, logout }) {
           <MDBCollapse open={openNavColorSecond} navbar id='navbarColor02'>
             <MDBNavbarNav className='me-auto mb-2 mb-lg-0'>
               <MDBNavbarItem className='active'>
-                <MDBNavbarLink aria-current='page'>
-                  Home
-                </MDBNavbarLink>
+                <Link to='/'><MDBNavbarLink>Home</MDBNavbarLink></Link>
               </MDBNavbarItem>
               <MDBNavbarItem>
                 <Link to='/campground'><MDBNavbarLink>Campground</MDBNavbarLink></Link>
               </MDBNavbarItem>
               {isLogin ? (
                 <>
+                  <MDBNavbarItem>
+                    <Link to='/campground/new'><MDBNavbarLink>New Campground</MDBNavbarLink></Link>
+                  </MDBNavbarItem>
                   <MDBNavbarItem>
                     <MDBNavbarLink onClick={handleLogout}>Logout</MDBNavbarLink>
                   </MDBNavbarItem>

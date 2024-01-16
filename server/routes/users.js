@@ -89,6 +89,18 @@ router.get('/login/success', async (req, res) => {
     }
 })
 
+//로그아웃
+router.post('/logout', (req, res) => {
+    try {
+        res.clearCookie('accessToken');
+        res.clearCookie('refreshToken');
+        res.status(200).json("Logout Success");
+    } catch (error) {
+        res.status(500).json(error);
+    }
+})
+
+
 
 
 // 모듈 내보내기
